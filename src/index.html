@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>Face tracking with tracking.js library</title>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="camera-container">
+      <video id="video" width="400" height="300" preload autoplay loop muted></video>
+      <canvas id="camera-canvas" width="400" height="300"></canvas>
+    </div>
+
+    <div class="button-container"><a type="button" href="#" onclick="takeAPicture()"><strong>TAKE A PICTURE</strong></a></div>
+
+      <canvas id="picture-canvas" width="300" height="300"></canvas>
+      <img id="img" src="https://www.k9ofmine.com/wp-content/uploads/2018/07/Most-beautiful-dogs.jpg" alt="">
+
+  </div>
+
+  <script src="./scripts/tracking-min.js"></script>
+  <script src="./scripts/data/face-min.js"></script>
+  <script>
+    var x, y, w, h = 0;
+    
+    function init(){
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('camera-canvas');
+      const tracker = new tracking.ObjectTracker('face');
+      
+      // For now, this is necessary becaus the developer's script have
+      // no option to configure camera resolution (apparently)
+      // Becaus this, browser will ask user 2 times to authorize camera stream
+      navigator.mediaDevices.getUserMedia({
+        video: {width: {exact: 320}, height: {exact: 240}}
+      });
+
+      tracking.track('#video', tracker, {camera: true, 
+        video: {width: {exact: 320}, height: {exact: 240}}
+      });
+
+      const context = canvas.getContext('2d');
+      context.strokeStyle = '#ff0000';
+      context.lineWidth = 2;
+
+      // Rate to convert video resolution to screen real output.
+      // Required to canvas capture correct video area.
+      newResolution = 320 / 400;
+
+      tracker.on('track', event => {
+        context.clearRect(0,0,canvas.width, canvas.height);
+        
+        event.data.forEach(rect => {
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          x = rect.x * newResolution; 
+          y = rect.y * newResolution; 
+          w = rect.width * newResolution; 
+          h = rect.height * newResolution;
+        });
+      })
+    }
+
+    function takeAPicture(){
+      const video = document.getElementById('video');
+      const pictureCanvas = document.getElementById('picture-canvas');
+      const pictureContext = pictureCanvas.getContext('2d');
+      
+      pictureContext.clearRect(0,0,300,300);
+      
+      // Adding some offset to coordinates and sizes to crop with 20px margin
+      pictureContext.drawImage(video, x - 20, y - 20, w + 40, h + 40, 0, 0, 300, 300);
+
+      const img = document.getElementById('img');
+      img.setAttribute('src', pictureCanvas.toDataURL('image/png'));
+    }
+
+    window.onload = init();
+  </script>
+</body>
+</html>
