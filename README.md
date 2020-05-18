@@ -15,3 +15,5 @@ In particular, this first example takes a picture of the webcam and crops the im
 While developing this simple example I observed that it (apparently) have no option to set camera resolution and this could cause troubles in some kinds of applications. To change camera resolution I had to apply the configurations through getUserMedia method and because this, browser will ask you 2 times to allow video stream :disappointed:.
 
 I have intention to fork the original component project to improve this question in a near future.
+
+[Live Demo](https://www.ivanseibel.com.br/examples/trackface-with-trackingjs/index.html)
