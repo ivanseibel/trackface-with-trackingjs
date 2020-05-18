@@ -6,7 +6,7 @@
 
 ## Description
 
-This is a simple project to experiment with face tracking using the [tracking.js library](https://trackingjs.com/).
+This is a simple project to make some experiments with face tracking using the [tracking.js library](https://trackingjs.com/).
 
 In particular, this first example takes a picture of the webcam and crops the image using the face track with reference. This can be useful if you have an application that needs to capture user photos and you want to avoid capturing unnecessary spaces to keep images small.
 
