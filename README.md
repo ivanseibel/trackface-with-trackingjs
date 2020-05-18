@@ -1,6 +1,6 @@
-<div style="display: flex;justify-content: center; width:100%;">
+<p align="center">
 <img src="https://github.com/ivanseibel/assets/blob/master/img/trackface/tracjface-with-trackingjs/trackface-with-trackingjs-01.png?raw=true" width="250px">
-</div>
+</p>
 
 # Facetracking with tracking.js library
 
